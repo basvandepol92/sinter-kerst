@@ -412,7 +412,7 @@ const hasFinalSelection = computed(() => playersReady.value && !!store.activeCha
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  color: #13223d;
+  color: inherit;
 }
 
 .score-header {
@@ -421,10 +421,11 @@ const hasFinalSelection = computed(() => playersReady.value && !!store.activeCha
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--surface-panel-bg);
   border-radius: 28px;
   padding: 1.5rem;
-  box-shadow: 0 18px 40px rgba(15, 19, 36, 0.12);
+  box-shadow: var(--surface-panel-shadow);
+  border: 1px solid var(--surface-panel-border);
 }
 
 .title-block h1 {
@@ -454,11 +455,11 @@ const hasFinalSelection = computed(() => playersReady.value && !!store.activeCha
 }
 
 .score-card {
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--score-card-bg);
   border-radius: 28px;
   padding: 1.2rem;
   text-align: center;
-  box-shadow: 0 18px 35px rgba(12, 16, 32, 0.08);
+  box-shadow: var(--score-card-shadow);
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
@@ -473,7 +474,7 @@ const hasFinalSelection = computed(() => playersReady.value && !!store.activeCha
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-size: 0.75rem;
-  color: #6b6f8f;
+  color: var(--text-muted);
 }
 
 .value {
@@ -486,7 +487,7 @@ const hasFinalSelection = computed(() => playersReady.value && !!store.activeCha
 .challenge-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(10, 13, 24, 0.7);
+  background: var(--modal-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -496,7 +497,7 @@ const hasFinalSelection = computed(() => playersReady.value && !!store.activeCha
 
 .modal-card {
   width: min(1100px, 100%);
-  background: #ffffff;
+  background: var(--modal-bg);
   border-radius: 32px;
   padding: clamp(1.2rem, 2vw, 2rem);
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
@@ -505,6 +506,7 @@ const hasFinalSelection = computed(() => playersReady.value && !!store.activeCha
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  border: 1px solid var(--overlay-card-border);
 }
 
 .modal-header {
@@ -522,10 +524,10 @@ const hasFinalSelection = computed(() => playersReady.value && !!store.activeCha
 
 .slot-window {
   border-radius: 24px;
-  background: #f7f8ff;
+  background: var(--surface-soft-bg);
   min-height: 220px;
   padding: 1rem;
-  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 0 0 2px var(--slot-border);
 }
 
 .slot-window.animating {
@@ -544,7 +546,7 @@ const hasFinalSelection = computed(() => playersReady.value && !!store.activeCha
 .placeholder {
   font-size: 1.2rem;
   font-weight: 700;
-  color: #363b65;
+  color: var(--placeholder-text);
   text-align: center;
 }
 
@@ -561,7 +563,7 @@ const hasFinalSelection = computed(() => playersReady.value && !!store.activeCha
 }
 
 .participant-tags :deep(.avatar.hero) {
-  background: #ffeaf3;
+  background: var(--avatar-hero-bg);
 }
 
 .preview-avatars {
@@ -572,7 +574,7 @@ const hasFinalSelection = computed(() => playersReady.value && !!store.activeCha
 }
 
 .preview-avatars :deep(.avatar.hero) {
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--avatar-hero-bg-alt);
 }
 
 .utilities {
@@ -581,7 +583,7 @@ const hasFinalSelection = computed(() => playersReady.value && !!store.activeCha
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 1rem;
-  background: #fef6ff;
+  background: var(--utilities-bg);
   border-radius: 22px;
   padding: 1rem 1.2rem;
 }
@@ -595,7 +597,18 @@ const hasFinalSelection = computed(() => playersReady.value && !!store.activeCha
 .status-text {
   margin: 0;
   font-weight: 700;
-  color: #5a5e85;
+  color: var(--status-strong);
+}
+
+:global(.dark-mode) .modal-card {
+  color: var(--page-text);
+  backdrop-filter: blur(14px);
+}
+
+:global(.dark-mode) .score-header,
+:global(.dark-mode) .score-card,
+:global(.dark-mode) .utilities {
+  backdrop-filter: blur(12px);
 }
 
 .modal-actions {

@@ -30,6 +30,7 @@ export interface GameSettings {
   recentChallengeWindow: number;
   avoidRepeats: boolean;
   maxAutoPlayers: number;
+  darkMode: boolean;
 }
 
 export interface ChallengeRecord {

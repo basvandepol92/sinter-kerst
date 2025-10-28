@@ -59,6 +59,15 @@ const seedLabel = computed(() => `Seed: ${store.seedValue}`);
       </AppCard>
 
       <AppCard>
+        <template #heading>Weergave</template>
+        <label class="toggle">
+          <input type="checkbox" :checked="store.settings.darkMode" @change="store.setDarkMode(!store.settings.darkMode)" />
+          <span>Dark mode</span>
+        </label>
+        <p class="hint">Schakel over op een donkere uitstraling.</p>
+      </AppCard>
+
+      <AppCard>
         <template #heading>Spelverloop</template>
         <div class="field">
           <label>Timer per challenge</label>
@@ -163,19 +172,19 @@ const seedLabel = computed(() => `Seed: ${store.seedValue}`);
   cursor: pointer;
   border-radius: 20px;
   padding: 0.6rem 0.4rem;
-  background: rgba(255, 255, 255, 0.8);
-  border: 2px solid transparent;
+  background: var(--player-chip-bg);
+  border: 2px solid var(--player-chip-border);
   transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
 .player-chip:hover {
-  border-color: #ffd4e6;
+  border-color: var(--player-chip-hover-border);
   transform: translateY(-2px);
 }
 
 .player-chip.inactive {
-  background: rgba(241, 241, 248, 0.8);
-  border-color: #dfe3f7;
+  background: var(--player-chip-inactive-bg);
+  border-color: var(--player-chip-inactive-border);
 }
 
 .player-chip input {
@@ -187,11 +196,11 @@ const seedLabel = computed(() => `Seed: ${store.seedValue}`);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #8486a4;
+  color: var(--player-chip-status);
 }
 
 .player-chip:not(.inactive) .status {
-  color: #ff6c94;
+  color: var(--player-chip-status-active);
 }
 
 .toggle {
@@ -229,13 +238,13 @@ const seedLabel = computed(() => `Seed: ${store.seedValue}`);
   border: none;
   padding: 0.45rem 1rem;
   border-radius: 999px;
-  background: #f2f2ff;
+  background: var(--chip-bg);
   font-weight: 700;
   cursor: pointer;
 }
 
 .chip.active {
-  background: #ffdce9;
+  background: var(--chip-active-bg);
 }
 
 .seed {
@@ -250,7 +259,7 @@ const seedLabel = computed(() => `Seed: ${store.seedValue}`);
 
 input[type='number'] {
   border-radius: 12px;
-  border: 1px solid #e0e3ff;
+  border: 1px solid var(--input-border);
   padding: 0.4rem 0.6rem;
   font-size: 1rem;
 }
@@ -261,5 +270,11 @@ input[type='range'] {
 
 .mt {
   margin-top: 1rem;
+}
+
+.hint {
+  margin: 0.5rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
 }
 </style>

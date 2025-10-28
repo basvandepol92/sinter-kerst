@@ -71,7 +71,7 @@ const toggle = (id: string) => {
 .winner-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 19, 36, 0.5);
+  background: var(--winner-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -80,11 +80,12 @@ const toggle = (id: string) => {
 }
 
 .dialog {
-  background: #fff;
+  background: var(--dialog-bg);
   padding: 2rem;
   border-radius: 28px;
   width: min(480px, 100%);
   box-shadow: 0 20px 60px rgba(15, 19, 36, 0.3);
+  border: 1px solid var(--overlay-card-border);
 }
 
 h3 {
@@ -93,7 +94,7 @@ h3 {
 
 p {
   margin-top: 0;
-  color: #50557a;
+  color: var(--dialog-muted);
 }
 
 .grid {
@@ -109,7 +110,7 @@ p {
   padding: 0.8rem;
   font-size: 1rem;
   cursor: pointer;
-  background: #f6f6fb;
+  background: var(--chip-surface);
   display: flex;
   align-items: center;
   gap: 0.6rem;
@@ -118,7 +119,7 @@ p {
 }
 
 .chip.active {
-  background: #ffedf5;
+  background: var(--chip-surface-active);
   transform: translateY(-2px);
 }
 
@@ -157,7 +158,7 @@ p {
 }
 
 .actions .ghost {
-  background: #f0f0ff;
+  background: var(--dialog-ghost);
 }
 
 .actions .primary {
@@ -167,5 +168,10 @@ p {
 .actions .primary:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+:global(.dark-mode) .dialog {
+  color: var(--page-text);
+  backdrop-filter: blur(16px);
 }
 </style>

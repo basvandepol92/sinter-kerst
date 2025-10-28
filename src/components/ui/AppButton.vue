@@ -52,7 +52,7 @@ const onClick = (event: MouseEvent) => {
   gap: 0.6rem;
   transition: transform 0.15s ease, box-shadow 0.2s ease;
   font-size: 1rem;
-  color: #0f1324;
+  color: var(--button-text);
 }
 
 .app-button.primary {
@@ -61,8 +61,8 @@ const onClick = (event: MouseEvent) => {
 }
 
 .app-button.ghost {
-  background: rgba(255, 255, 255, 0.7);
-  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5);
+  background: var(--button-ghost-bg);
+  box-shadow: inset 0 0 0 2px var(--button-ghost-border);
 }
 
 .app-button.danger {
@@ -91,5 +91,13 @@ const onClick = (event: MouseEvent) => {
 
 .icon {
   font-size: 1.1rem;
+}
+
+:global(.dark-mode) .app-button.primary {
+  box-shadow: 0 14px 28px rgba(255, 155, 115, 0.3);
+}
+
+:global(.dark-mode) .app-button.ghost {
+  color: #f4f6ff;
 }
 </style>

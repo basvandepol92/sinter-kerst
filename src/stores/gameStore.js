@@ -1,4 +1,4 @@
-import { computed, reactive, ref } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { defineStore } from 'pinia';
 import defaultChallenges from '../data/challenges';
 import JulotGif from '../images/Julot.png';
@@ -9,8 +9,8 @@ const playerPalette = [
     {
         id: 'julot',
         name: 'Julot',
-        color: '#6dd5ff',
-        accent: '#c9f1ff',
+        color: '#ff8a8a',
+        accent: '#ffd1d1',
         sprite: JulotGif,
         enabled: true,
         score: 0
@@ -18,8 +18,8 @@ const playerPalette = [
     {
         id: 'flo',
         name: 'Flo',
-         color: '#ff8a8a',
-        accent: '#ffd1d1',
+        color: '#6dd5ff',
+        accent: '#c9f1ff',
         sprite: FloGif,
         enabled: true,
         score: 0
@@ -44,13 +44,14 @@ const playerPalette = [
     }
 ];
 const defaultSettings = {
-    keepScore: true,
-    timerSeconds: 75,
-    participantsMode: 'auto',
-    forceTimerSound: true,
-    recentChallengeWindow: 4,
-    avoidRepeats: true,
-    maxAutoPlayers: 4
+  keepScore: true,
+  timerSeconds: 75,
+  participantsMode: 'auto',
+  forceTimerSound: true,
+  recentChallengeWindow: 4,
+  avoidRepeats: true,
+  maxAutoPlayers: 4,
+  darkMode: false
 };
 const rerollCooldownMs = 0;
 const createMulberry32 = (seed) => {
@@ -67,7 +68,17 @@ export const useGameStore = defineStore('game', () => {
     const players = ref(clonePlayers());
     const challenges = ref(cloneChallenges());
     const challengeHistory = ref([]);
-    const settings = reactive({ ...defaultSettings });
+  const settings = reactive({ ...defaultSettings });
+
+  if (typeof document !== 'undefined') {
+    watch(
+      () => settings.darkMode,
+      (enabled) => {
+        document.documentElement.classList.toggle('dark-mode', enabled);
+      },
+      { immediate: true }
+    );
+  }
     const activeChallengeId = ref(null);
     const activePlayerIds = ref([]);
     const gamePhase = ref('idle');
@@ -87,6 +98,8 @@ export const useGameStore = defineStore('game', () => {
     const enabledPlayers = computed(() => players.value.filter((p) => p.enabled));
     const activeChallenge = computed(() => challenges.value.find((c) => c.id === activeChallengeId.value) ?? null);
     const rerollReady = computed(() => Date.now() >= rerollAvailableAt.value);
+    const getActiveDuration = () => activeChallenge.value?.timerOverrideSeconds ?? settings.timerSeconds;
+    const currentTimerLimit = computed(() => getActiveDuration());
     const randomFloat = () => {
         return seededRandom();
     };
@@ -131,16 +144,16 @@ export const useGameStore = defineStore('game', () => {
             .slice(0, count)
             .map((p) => p.id);
     };
-const eligibleChallenges = (availableCount) => {
-    let pool = challenges.value.filter((challenge) => availableCount >= challenge.minPlayers);
-    if (settings.avoidRepeats && settings.recentChallengeWindow > 0) {
-        pool = pool.filter((challenge) => !recentChallengeIds.value.includes(challenge.id));
-    }
-    if (pool.length === 0) {
-        pool = challenges.value.filter((challenge) => availableCount >= challenge.minPlayers);
-    }
-    return pool;
-};
+    const eligibleChallenges = (availableCount) => {
+        let pool = challenges.value.filter((challenge) => availableCount >= challenge.minPlayers);
+        if (settings.avoidRepeats && settings.recentChallengeWindow > 0) {
+            pool = pool.filter((challenge) => !recentChallengeIds.value.includes(challenge.id));
+        }
+        if (pool.length === 0) {
+            pool = challenges.value.filter((challenge) => availableCount >= challenge.minPlayers);
+        }
+        return pool;
+    };
     const pushRecentChallenge = (challengeId) => {
         if (!settings.avoidRepeats || settings.recentChallengeWindow <= 0) {
             return;
@@ -158,47 +171,48 @@ const eligibleChallenges = (availableCount) => {
             recentChallengeIds.value.splice(idx, 1);
         }
     };
-const resolveParticipantCount = (challenge, desired) => {
-    const maxAllowed = Math.min(challenge.maxPlayers, enabledPlayers.value.length);
-    const minRequired = challenge.minPlayers;
-    if (maxAllowed < minRequired)
-        return null;
-    let count = desired;
-    if (count <= 0) {
-        count = minRequired;
-    }
-    count = Math.min(count, maxAllowed);
-    count = Math.max(count, minRequired);
-    return count;
-};
-const rollChallenge = () => {
-    const availablePlayers = enabledPlayers.value.length;
-    if (!availablePlayers) {
-        activeChallengeId.value = null;
-        activePlayerIds.value = [];
-        return null;
-    }
-    const desiredPlayers = determineGroupSize(settings.participantsMode);
-    const pool = eligibleChallenges(availablePlayers);
-    if (pool.length === 0) {
-        activeChallengeId.value = null;
-        activePlayerIds.value = [];
-        return null;
-    }
-    const chosen = pool[Math.floor(randomFloat() * pool.length)];
-    const participantCount = resolveParticipantCount(chosen, desiredPlayers);
-    if (!participantCount) {
-        activeChallengeId.value = null;
-        activePlayerIds.value = [];
-        return null;
-    }
-    const selection = pickPlayers(participantCount);
-    removeRecent(activeChallengeId.value);
-    activeChallengeId.value = chosen.id;
-    pushRecentChallenge(chosen.id);
-    activePlayerIds.value = selection;
+    const resolveParticipantCount = (challenge, desired) => {
+        const maxAllowed = Math.min(challenge.maxPlayers, enabledPlayers.value.length);
+        const minRequired = challenge.minPlayers;
+        if (maxAllowed < minRequired)
+            return null;
+        let count = desired;
+        if (count <= 0) {
+            count = minRequired;
+        }
+        count = Math.min(count, maxAllowed);
+        count = Math.max(count, minRequired);
+        return count;
+    };
+    const rollChallenge = () => {
+        const availablePlayers = enabledPlayers.value.length;
+        if (!availablePlayers) {
+            activeChallengeId.value = null;
+            activePlayerIds.value = [];
+            return null;
+        }
+        const desiredPlayers = determineGroupSize(settings.participantsMode);
+        const pool = eligibleChallenges(availablePlayers);
+        if (pool.length === 0) {
+            activeChallengeId.value = null;
+            activePlayerIds.value = [];
+            return null;
+        }
+        const chosen = pool[Math.floor(randomFloat() * pool.length)];
+        const participantCount = resolveParticipantCount(chosen, desiredPlayers);
+        if (!participantCount) {
+            activeChallengeId.value = null;
+            activePlayerIds.value = [];
+            return null;
+        }
+        const selection = pickPlayers(participantCount);
+        removeRecent(activeChallengeId.value);
+        activeChallengeId.value = chosen.id;
+        pushRecentChallenge(chosen.id);
+        activePlayerIds.value = selection;
         timer.running = false;
-        timer.remaining = settings.timerSeconds;
+        const duration = chosen.timerOverrideSeconds ?? settings.timerSeconds;
+        timer.remaining = duration;
         timer.endsAt = 0;
         gamePhase.value = 'ready';
         return chosen;
@@ -210,8 +224,9 @@ const rollChallenge = () => {
         if (!activeChallenge.value) {
             return false;
         }
-        timer.remaining = settings.timerSeconds;
-        timer.endsAt = performance.now() + settings.timerSeconds * 1000;
+        const duration = getActiveDuration();
+        timer.remaining = duration;
+        timer.endsAt = performance.now() + duration * 1000;
         timer.running = true;
         gamePhase.value = 'running';
         return true;
@@ -268,7 +283,9 @@ const rollChallenge = () => {
     };
     const setTimerSeconds = (value) => {
         settings.timerSeconds = Math.max(10, value);
-        timer.remaining = settings.timerSeconds;
+        if (!activeChallenge.value?.timerOverrideSeconds && !timer.running) {
+            timer.remaining = settings.timerSeconds;
+        }
     };
     const setParticipantsMode = (mode) => {
         settings.participantsMode = mode;
@@ -283,9 +300,13 @@ const rollChallenge = () => {
         settings.recentChallengeWindow = Math.max(0, value);
         recentChallengeIds.value = recentChallengeIds.value.slice(-settings.recentChallengeWindow);
     };
-    const setAvoidRepeats = (value) => {
-        settings.avoidRepeats = value;
-    };
+  const setAvoidRepeats = (value) => {
+    settings.avoidRepeats = value;
+  };
+
+  const setDarkMode = (value) => {
+    settings.darkMode = value;
+  };
     const upsertChallenge = (payload) => {
         const exists = challenges.value.findIndex((challenge) => challenge.id === payload.id);
         if (exists === -1) {
@@ -344,6 +365,7 @@ const rollChallenge = () => {
         winnerBurst,
         scoreboard,
         seedValue,
+        currentTimerLimit,
         // getters
         enabledPlayers,
         // actions
@@ -360,7 +382,8 @@ const rollChallenge = () => {
         setMaxAutoPlayers,
         setKeepScore,
         setRecentWindow,
-        setAvoidRepeats,
+    setAvoidRepeats,
+    setDarkMode,
         upsertChallenge,
         deleteChallenge,
         importChallenges,
