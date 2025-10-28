@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import musicUrl from '../music/sinterkerst.mp3';
 const context = ref(null);
 const masterGain = ref(null);
 const musicSource = ref(null);
@@ -40,7 +41,7 @@ const loadMusic = async () => {
     if (musicBuffer.value)
         return musicBuffer.value;
     const ctx = await ensureContext();
-    const response = await fetch('/src/music/sinterkerst.mp3');
+    const response = await fetch(musicUrl);
     const arrayBuffer = await response.arrayBuffer();
     musicBuffer.value = await ctx.decodeAudioData(arrayBuffer);
     return musicBuffer.value;

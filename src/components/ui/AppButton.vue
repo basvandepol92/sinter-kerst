@@ -98,6 +98,13 @@ const onClick = (event: MouseEvent) => {
 }
 
 :global(.dark-mode) .app-button.ghost {
-  color: #f4f6ff;
+  background: var(--button-ghost-bg);
+  box-shadow: inset 0 0 0 2px var(--button-ghost-border);
+  color: var(--button-text);
+}
+
+:global(.dark-mode) .app-button.ghost:not(.disabled):hover {
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.18);
 }
 </style>
