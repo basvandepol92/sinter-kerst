@@ -71,7 +71,7 @@ src/
 
 ## Werkwijze bij aanpassingen
 
-1. Voeg nieuwe challenges toe via `ChallengeManagerView` of JSON-import.
+1. Voeg nieuwe challenges toe via `ChallengeManagerView` of JSON-import. -
 2. Zorg dat wijzigingen aan audio of timers ook in `useAudioEngine.{ts,js}` terechtkomen (beide versies updaten).
 3. Houd `README.md` up-to-date na features of workflow-wijzigingen (zoals deze).
 
