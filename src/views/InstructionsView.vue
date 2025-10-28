@@ -50,7 +50,7 @@ const router = useRouter();
 .page {
   max-width: 940px;
   margin: 0 auto;
-  color: #13203a;
+  color: inherit;
 }
 
 .back {
@@ -59,12 +59,12 @@ const router = useRouter();
 
 h1 {
   margin: 0 0 0.5rem;
-  color: #ce4d1c;
+  color: var(--card-heading);
 }
 
 .intro {
   font-size: 1.1rem;
-  color: #3b3561;
+  color: var(--status-strong);
 }
 
 .grid {

@@ -2,10 +2,114 @@
 
 :root {
   font-family: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  color: #0f1324;
-  background: radial-gradient(circle at top, #ffe9cf 0%, #fff4ed 35%, #f7fbff 100%);
+  --page-text: #0f1324;
+  --page-bg: radial-gradient(circle at top, #ffe9cf 0%, #fff4ed 35%, #f7fbff 100%);
+  --page-overlay: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.7));
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --card-border: rgba(255, 255, 255, 0.7);
+  --card-shadow: 0 18px 40px rgba(15, 19, 36, 0.12);
+  --card-heading: #ce4d1c;
+  --button-text: #0f1324;
+  --button-ghost-bg: rgba(255, 255, 255, 0.7);
+  --button-ghost-border: rgba(255, 255, 255, 0.5);
+  --player-chip-bg: rgba(255, 255, 255, 0.8);
+  --player-chip-border: transparent;
+  --player-chip-hover-border: #ffd4e6;
+  --player-chip-inactive-bg: rgba(241, 241, 248, 0.8);
+  --player-chip-inactive-border: #dfe3f7;
+  --player-chip-status: #8486a4;
+  --player-chip-status-active: #ff6c94;
+  --chip-bg: #f2f2ff;
+  --chip-active-bg: #ffdce9;
+  --input-border: #e0e3ff;
+  --text-muted: #6b6f8f;
+  --surface-panel-bg: rgba(255, 255, 255, 0.9);
+  --surface-panel-shadow: 0 18px 40px rgba(15, 19, 36, 0.12);
+  --surface-panel-border: rgba(255, 255, 255, 0.7);
+  --surface-soft-bg: #f7f8ff;
+  --surface-soft-alt: #fef6ff;
+  --score-card-bg: rgba(255, 255, 255, 0.92);
+  --score-card-shadow: 0 18px 35px rgba(12, 16, 32, 0.08);
+  --avatar-hero-bg: #ffeaf3;
+  --avatar-hero-bg-alt: rgba(255, 255, 255, 0.9);
+  --utilities-bg: #fef6ff;
+  --placeholder-text: #363b65;
+  --status-strong: #5a5e85;
+  --modal-overlay: rgba(10, 13, 24, 0.7);
+  --modal-bg: #ffffff;
+  --dialog-bg: #ffffff;
+  --dialog-muted: #50557a;
+  --chip-surface: #f6f6fb;
+  --chip-surface-active: #ffedf5;
+  --dialog-ghost: #f0f0ff;
+  --slot-border: rgba(255, 255, 255, 0.6);
+  --overlay-card-border: rgba(255, 255, 255, 0.85);
+  --winner-overlay: rgba(15, 19, 36, 0.5);
+  --table-bg: rgba(255, 255, 255, 0.85);
+  --table-shadow: 0 18px 40px rgba(15, 19, 36, 0.08);
+  --table-row-alt: rgba(255, 255, 255, 0.6);
+  --table-head-color: #8d95c9;
+  --danger-bg: #ffd4e0;
+  --import-bg: #ffe6f1;
+  --form-input-bg: rgba(255, 255, 255, 0.9);
+  color: var(--page-text);
+  background: var(--page-bg);
   min-height: 100%;
   color-scheme: light;
+}
+
+:root.dark-mode {
+  --page-text: #f4f6ff;
+  --page-bg: radial-gradient(circle at top, #0f172d 0%, #111933 40%, #070b18 100%);
+  --page-overlay: linear-gradient(180deg, rgba(7, 9, 18, 0.85), rgba(11, 14, 26, 0.88));
+  --card-bg: rgba(22, 25, 45, 0.9);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  --card-heading: #ffb371;
+  --button-text: #101326;
+  --button-ghost-bg: rgba(34, 39, 63, 0.85);
+  --button-ghost-border: rgba(255, 255, 255, 0.14);
+  --player-chip-bg: rgba(36, 41, 70, 0.85);
+  --player-chip-border: rgba(255, 255, 255, 0.06);
+  --player-chip-hover-border: rgba(255, 153, 194, 0.65);
+  --player-chip-inactive-bg: rgba(24, 27, 48, 0.85);
+  --player-chip-inactive-border: rgba(255, 255, 255, 0.03);
+  --player-chip-status: #a6a8cf;
+  --player-chip-status-active: #ff89b1;
+  --chip-bg: rgba(42, 47, 77, 0.9);
+  --chip-active-bg: rgba(255, 150, 200, 0.3);
+  --input-border: rgba(255, 255, 255, 0.18);
+  --text-muted: #b1b3d6;
+  --surface-panel-bg: rgba(26, 30, 54, 0.92);
+  --surface-panel-shadow: 0 24px 50px rgba(0, 0, 0, 0.55);
+  --surface-panel-border: rgba(255, 255, 255, 0.06);
+  --surface-soft-bg: rgba(28, 32, 56, 0.85);
+  --surface-soft-alt: rgba(40, 24, 48, 0.65);
+  --score-card-bg: rgba(34, 39, 66, 0.92);
+  --score-card-shadow: 0 24px 45px rgba(0, 0, 0, 0.55);
+  --avatar-hero-bg: rgba(255, 170, 210, 0.28);
+  --avatar-hero-bg-alt: rgba(34, 39, 66, 0.85);
+  --utilities-bg: rgba(32, 28, 46, 0.75);
+  --placeholder-text: #c3c6ec;
+  --status-strong: #c5c7e8;
+  --modal-overlay: rgba(4, 5, 12, 0.78);
+  --modal-bg: rgba(18, 21, 38, 0.95);
+  --dialog-bg: rgba(26, 30, 54, 0.95);
+  --dialog-muted: #b9bbdf;
+  --chip-surface: rgba(37, 42, 68, 0.85);
+  --chip-surface-active: rgba(255, 155, 210, 0.3);
+  --dialog-ghost: rgba(46, 52, 84, 0.85);
+  --slot-border: rgba(255, 255, 255, 0.1);
+  --overlay-card-border: rgba(255, 255, 255, 0.12);
+  --winner-overlay: rgba(4, 6, 16, 0.7);
+  --table-bg: rgba(26, 30, 54, 0.9);
+  --table-shadow: 0 24px 48px rgba(0, 0, 0, 0.55);
+  --table-row-alt: rgba(34, 38, 64, 0.85);
+  --table-head-color: #b7baf0;
+  --danger-bg: rgba(255, 105, 150, 0.28);
+  --import-bg: rgba(255, 150, 200, 0.24);
+  --form-input-bg: rgba(28, 32, 56, 0.9);
+  color-scheme: dark;
 }
 
 *,
@@ -18,6 +122,7 @@ body {
   margin: 0;
   min-height: 100vh;
   background: transparent;
+  color: var(--page-text);
 }
 
 #app {

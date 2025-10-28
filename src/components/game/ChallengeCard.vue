@@ -33,10 +33,10 @@ defineProps<{
 
 <style scoped>
 .challenge-card {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--card-bg);
   border-radius: 28px;
   padding: clamp(1.4rem, 3vw, 2.6rem);
-  box-shadow: 0 24px 60px rgba(15, 19, 36, 0.18);
+  box-shadow: var(--card-shadow);
   min-height: 340px;
   display: flex;
   flex-direction: column;
@@ -54,13 +54,13 @@ defineProps<{
 h2 {
   margin: 0;
   font-size: clamp(1.6rem, 3vw, 2.5rem);
-  color: #ce4d1c;
+  color: var(--card-heading);
 }
 
 .description {
   font-size: 1.05rem;
   line-height: 1.5;
-  color: #27314b;
+  color: var(--status-strong);
 }
 
 .meta {
@@ -71,6 +71,10 @@ h2 {
   flex-wrap: wrap;
   gap: 0.7rem 1.2rem;
   font-weight: 600;
-  color: #3d4163;
+  color: var(--text-muted);
+}
+
+:global(.dark-mode) .challenge-card {
+  backdrop-filter: blur(12px);
 }
 </style>

@@ -270,6 +270,7 @@ watch(
 .page {
   max-width: 1200px;
   margin: 0 auto;
+  color: inherit;
 }
 
 .back {
@@ -292,9 +293,11 @@ watch(
 input[type='search'],
 select {
   border-radius: 14px;
-  border: 1px solid #dbe0ff;
+  border: 1px solid var(--input-border);
   padding: 0.5rem 0.9rem;
   font-size: 1rem;
+  background: var(--form-input-bg);
+  color: inherit;
 }
 
 .io {
@@ -308,7 +311,7 @@ select {
   overflow: hidden;
   border-radius: 999px;
   padding: 0.5rem 1rem;
-  background: #ffe6f1;
+  background: var(--import-bg);
   font-weight: 700;
   cursor: pointer;
 }
@@ -327,12 +330,13 @@ select {
 }
 
 .table-wrapper {
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--table-bg);
   border-radius: 24px;
   padding: 1rem;
-  box-shadow: 0 18px 40px rgba(15, 19, 36, 0.08);
+  box-shadow: var(--table-shadow);
   overflow: auto;
   max-height: 70vh;
+  border: 1px solid var(--surface-panel-border);
 }
 
 table {
@@ -346,7 +350,7 @@ th {
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: #8d95c9;
+  color: var(--table-head-color);
 }
 
 td,
@@ -355,7 +359,7 @@ th {
 }
 
 tbody tr:nth-child(even) {
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--table-row-alt);
 }
 
 .actions {
@@ -371,7 +375,7 @@ tbody tr:nth-child(even) {
 }
 
 .actions .danger {
-  background: #ffd4e0;
+  background: var(--danger-bg);
 }
 
 .form {
@@ -392,9 +396,11 @@ tbody tr:nth-child(even) {
 .form textarea,
 .form select {
   border-radius: 12px;
-  border: 1px solid #e0e3ff;
+  border: 1px solid var(--input-border);
   padding: 0.45rem 0.7rem;
   font-size: 0.95rem;
+  background: var(--form-input-bg);
+  color: inherit;
 }
 
 .columns {
@@ -417,7 +423,11 @@ tbody tr:nth-child(even) {
 
 .hint {
   font-size: 0.75rem;
-  color: #6b6f8f;
+  color: var(--text-muted);
+}
+
+:global(.dark-mode) .table-wrapper {
+  backdrop-filter: blur(12px);
 }
 
 @media (max-width: 960px) {

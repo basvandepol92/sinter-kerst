@@ -1,4 +1,4 @@
-import { computed, reactive, ref } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { defineStore } from 'pinia';
 import type { Challenge, ChallengeRecord, GameSettings, ParticipantsMode, Player } from '../types/game';
 import defaultChallenges from '../data/challenges';
@@ -55,7 +55,8 @@ const defaultSettings: GameSettings = {
   forceTimerSound: true,
   recentChallengeWindow: 4,
   avoidRepeats: true,
-  maxAutoPlayers: 4
+  maxAutoPlayers: 4,
+  darkMode: false
 };
 
 const rerollCooldownMs = 0;
@@ -77,6 +78,16 @@ export const useGameStore = defineStore('game', () => {
   const challenges = ref<Challenge[]>(cloneChallenges());
   const challengeHistory = ref<ChallengeRecord[]>([]);
   const settings = reactive<GameSettings>({ ...defaultSettings });
+
+  if (typeof document !== 'undefined') {
+    watch(
+      () => settings.darkMode,
+      (enabled) => {
+        document.documentElement.classList.toggle('dark-mode', enabled);
+      },
+      { immediate: true }
+    );
+  }
 
   const activeChallengeId = ref<string | null>(null);
   const activePlayerIds = ref<string[]>([]);
@@ -338,6 +349,10 @@ export const useGameStore = defineStore('game', () => {
     settings.avoidRepeats = value;
   };
 
+  const setDarkMode = (value: boolean) => {
+    settings.darkMode = value;
+  };
+
   const upsertChallenge = (payload: Challenge) => {
     const exists = challenges.value.findIndex((challenge) => challenge.id === payload.id);
     if (exists === -1) {
@@ -422,6 +437,7 @@ export const useGameStore = defineStore('game', () => {
     setKeepScore,
     setRecentWindow,
     setAvoidRepeats,
+    setDarkMode,
     upsertChallenge,
     deleteChallenge,
     importChallenges,
